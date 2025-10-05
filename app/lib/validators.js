@@ -1,5 +1,5 @@
 import z from 'zod';
-import is from 'zod/v4/locales/is.cjs';
+
 
 export const userSchema = z.object({
     username : z
@@ -52,4 +52,12 @@ export const availabilitySchema = z.object({
     saturday:daySchema,
     sunday:daySchema,
     timeGap:z.number().int().min(0,"Time gap must be greater than zero"),
+});
+
+export const bookingSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email"), // ← Changed: pass message directly as string
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  time: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
+  additionalInfo: z.string().optional(),
 });

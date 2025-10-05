@@ -78,8 +78,8 @@ export async function updateUserAvailability(data){
             const baseData = new Date().toISOString().split("T")[0];
             return{
                 day:day.toUpperCase(),
-                startTime:new Date(`${baseData}T${startTime}`),
-                endTime:new Date(`${baseData}T${endTime}`),
+                startTime:new Date(`${baseData}T${startTime}:00Z`),
+                endTime:new Date(`${baseData}T${endTime}:00Z`),
                 
             }
          }
