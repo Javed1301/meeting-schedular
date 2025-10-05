@@ -1,4 +1,5 @@
 import z from 'zod';
+import is from 'zod/v4/locales/is.cjs';
 
 export const userSchema = z.object({
     username : z
@@ -26,3 +27,29 @@ export const eventSchema = z.object({
 
     isPrivate:z.boolean(),
 })
+
+export const daySchema = z.object({
+    isAvailable:z.boolean(),
+    startTime:z.string().optional(),
+    endTime:z.string().optional(),
+}).refine((data)=>{
+    if(data.isAvailable){
+        return data.startTime < data.endTime;
+    }
+    return true;
+},{
+    message:"Start time must be before end time",
+    path:["endTime"],
+}
+)
+
+export const availabilitySchema = z.object({
+    monday:daySchema,
+    tuesday:daySchema,
+    wednesday:daySchema,
+    thursday:daySchema,
+    friday:daySchema,
+    saturday:daySchema,
+    sunday:daySchema,
+    timeGap:z.number().int().min(0,"Time gap must be greater than zero"),
+});
