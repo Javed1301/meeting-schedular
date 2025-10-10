@@ -1,5 +1,5 @@
 "use client"
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useForm } from 'react-hook-form';
@@ -12,8 +12,8 @@ import { BarLoader } from 'react-spinners';
 import useFetch from '@/hooks/use-fetch';
 import { updateUsername } from '@/actions/user';
 // import { set } from 'zod';
-
-
+import { getLatestUpdates } from '@/actions/dashboard';
+import { format } from 'date-fns';
 
 
 const Dashboard = () => {
@@ -43,6 +43,17 @@ const Dashboard = () => {
     // console.log(data);
     fnUpdateUserName(data.username);
   }
+
+
+   const {
+    loading: loadingUpdates,
+    data: upcomingMeetings,
+    fn: fnUpdates,
+  } = useFetch(getLatestUpdates);
+
+  useEffect(() => {
+    (async () => await fnUpdates())();
+  }, []);
   return (
     <div>
       <Card>
@@ -51,7 +62,32 @@ const Dashboard = () => {
             Welcome, {user?.firstName}!
           </CardTitle>
         </CardHeader>
-        {/* Latest updates */}
+           <CardContent>
+          {!loadingUpdates ? (
+            <div className="space-y-6 font-light">
+              <div>
+                {upcomingMeetings && upcomingMeetings?.length > 0 ? (
+                  <ul className="list-disc pl-5">
+                    {upcomingMeetings?.map((meeting) => (
+                      <li key={meeting.id}>
+                        {meeting.event.title} on{" "}
+                        {format(
+                          new Date(meeting.startTime),
+                          "MMM d, yyyy h:mm a"
+                        )}{" "}
+                        with {meeting.name}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No upcoming meetings</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <p>Loading updates...</p>
+          )}
+        </CardContent>
 
       </Card>
       <Card>
