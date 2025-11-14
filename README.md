@@ -137,8 +137,6 @@ This README explains the project's purpose, design decisions, how it's implement
 
 ## Suggested extra features / components
 
-- Calendar sync details:
-  - UI to connect Google/Outlook and view connected accounts; refresh OAuth tokens and show connection status.
 
 - Recurring availability & exceptions:
   - Support for holidays, ad-hoc blocked times and recurring rules.
