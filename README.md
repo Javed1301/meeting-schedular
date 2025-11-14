@@ -160,6 +160,9 @@ This README explains the project's purpose, design decisions, how it's implement
 
 ---
 
+- Link for new Section To be created
+  -https://chatgpt.com/share/68f39d3b-b218-8012-b838-38ccb294920d
+
 ## Final notes
 
 - The repo demonstrates a production-oriented pattern: server actions + Clerk + Prisma + validation.  
